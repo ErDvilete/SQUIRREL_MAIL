@@ -63,13 +63,19 @@ Vagrant.configure("2") do |config|
       a2dissite 000-default
       systemctl restart apache2
 
-      # Instalamos postfix de manera manual con el comando
-      #sudo apt install postfix -y
-      #Y lo configuramos con internet site y de system name "Mail"
+      # Instalamos postfix con debconf para automatizarlo
+
+      apt-get install debconf -y 
+      debconf-set-selections <<< "postfix postfix/mailname string izv.test"
+      debconf-set-selections <<< "postfix postfix/main_mailer_type string 'internet site'"
+      apt-get install postfix -y
 
 
 
-      #Creo los usuarios de manera manual dentro de la maquina con el comando adduser de mengano y fulano con contraseña m y f correspondientemente
+      #Creo los usuarios mengano y fulano manera automatizada
+
+      useradd -m -s /bin/bash -p $(openssl passwd -1 f) fulano
+      useradd -m -s /bin/bash -p $(openssl passwd -1 m) mengano
 
       
     SHELL
