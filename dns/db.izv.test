@@ -11,5 +11,9 @@ $TTL	86400
 			2419200		; Expire
 			  86400 )	; Negative Cache TTL
 ;
-@		IN	NS	mail
-mail	IN	A	192.168.57.10
+@			IN	NS		mail
+mail		IN	A		192.168.56.10
+smtp		IN 	CNAME 	mail.izv.test.
+imap 		IN 	CNAME 	mail.izv.test.
+pop3 		IN 	CNAME 	mail.izv.test.
+@			IN  MX 10 	mail.izv.test.

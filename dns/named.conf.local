@@ -6,9 +6,9 @@
 // organization
 //include "/etc/bind/zones.rfc1918";
 
-zone "izv.test." {
+zone "izv.test" {
     type master;
-    file "/var/lib/bind/db.izv.test.";
+    file "/var/lib/bind/db.izv.test";
 };
 
 zone "56.168.192.in-addr.arpa" {

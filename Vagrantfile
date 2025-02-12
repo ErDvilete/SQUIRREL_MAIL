@@ -9,9 +9,10 @@ Vagrant.configure("2") do |config|
   config.vm.define "mail" do |mail|
     mail.vm.hostname = "mail"
     mail.vm.network "private_network", ip: "192.168.56.10"
+    mail.vm.network "public_network",  ip: "192.168.57.10", bridge: "enp2s0"
     mail.vm.provision "shell", inline: <<-SHELL
 
-      apt-get update && apt-get upgrade
+      apt-get update && apt-get upgrade -y
 
       #Instalar paquetes
 
@@ -24,10 +25,10 @@ Vagrant.configure("2") do |config|
       #Copiar ficheros DNS
 
       cp -v /vagrant/dns/named /etc/default/
-      cp -v /vagrant/dns/db.56.168.192 /etc/bind/
-      cp -v /vagrant/dns/db.izv.test /etc/bind/
-      cp -v /vagrant/dns/named.conf.local /etc/bind
-      cp -v /vagrant/dns/named.conf.options /etc/bind
+      cp -v /vagrant/dns/db.56.168.192 /etc/bind
+      cp -v /vagrant/dns/db.izv.test /etc/bind
+      cp -v /vagrant/dns/named.conf.local /var/lib/bind
+      cp -v /vagrant/dns/named.conf.options /var/lib/bind
       
       #Descargar SquirrelMail
 
@@ -61,6 +62,16 @@ Vagrant.configure("2") do |config|
       a2ensite mail
       a2dissite 000-default
       systemctl restart apache2
+
+      # Instalamos postfix de manera manual con el comando
+      #sudo apt install postfix -y
+      #Y lo configuramos con internet site y de system name "Mail"
+
+
+
+      #Creo los usuarios de manera manual dentro de la maquina con el comando adduser de mengano y fulano con contraseña m y f correspondientemente
+
+      
     SHELL
     end
 
